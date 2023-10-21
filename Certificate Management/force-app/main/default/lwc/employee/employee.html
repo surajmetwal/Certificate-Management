@@ -1,0 +1,54 @@
+<template>
+    <lightning-card title="Employees" icon-name="standard:user">
+        <lightning-button label="ADD"  variant ="brand" onclick={opemp}></lightning-button>
+        <template if:true={ep}>
+         <!-- Modal/Popup Box LWC starts here -->
+         <section role="dialog" tabindex="-1" aria-labelledby="modal-heading-01" aria-modal="true" aria-describedby="modal-content-id-1" class="slds-modal slds-fade-in-open">
+          <div class="slds-modal__container">
+              <!-- Modal/Popup Box LWC header here -->
+              <header class="slds-modal__header">
+                  <button class="slds-button slds-button_icon slds-modal__close slds-button_icon-inverse" title="Close" onclick={closemp}>
+                      <lightning-icon icon-name="utility:close"
+                          alternative-text="close"
+                          variant="inverse"
+                          size="small" ></lightning-icon>
+                      <span class="slds-assistive-text">Close</span>
+                  </button>
+                  <h2 id="modal-heading-01" class="slds-text-heading_medium slds-hyphenate">Insert Employees</h2>
+              </header>
+              <!-- Modal/Popup Box LWC body starts here -->
+              <div class="slds-modal__content slds-p-around_medium" id="modal-content-id-1">
+      <lightning-record-form object-api-name={objectApiName}
+      fields={fieldNames}
+      onsuccess={myEmp}
+      oncancel={closemp}></lightning-record-form>
+            </div>
+          </div>
+         </section>
+         <div class="slds-backdrop slds-backdrop_open"></div>
+</template> 
+
+<div class="slds-m-around_medium">
+     <lightning-card title="All Employees"> 
+      <template if:true={allData}> 
+        <lightning-datatable
+        data={allData}
+        key-field="Id"
+        hide-checkbox-column="true" 
+        columns={colm}>
+      </lightning-datatable>  
+          </template>
+          <footer>
+            <lightning-layout>
+              <lightning-button label="Prev" variant="brand"  onclick={preEmp} disabled={dispre}></lightning-button>
+              <lightning-layout-item flexibility="grow" class="slds-var-m-around_small">
+                  <p  class="slds-text-align_center"> Page :{curPage} of {totalPage}.</p>
+              </lightning-layout-item>
+                  <lightning-button label="Next" variant="brand"  onclick={nextEmp} disabled={disnex}></lightning-button>
+            </lightning-layout>
+          </footer>
+    </lightning-card>
+  </div>
+    </lightning-card>
+
+</template>

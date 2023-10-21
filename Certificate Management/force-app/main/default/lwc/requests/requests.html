@@ -1,0 +1,102 @@
+
+<template>
+    <div class="slds-clearfix">
+    <lightning-button class="slds-float_right"  label="New" onclick={maketrue}></lightning-button>
+<!-- put data via modal -->
+    <div if:true={status} class="slds-m-around_large">
+        <section role="dialog" tabindex="-1" aria-labelledby="modal-heading-01" aria-modal="true" aria-describedby="modal-content-id-2" class="slds-modal slds-fade-in-open">
+            <div class="slds-modal__container">
+               
+                <header class="slds-modal__header">
+                    <button class="slds-button slds-button_icon slds-modal__close slds-button_icon-inverse" title="Close" onclick={closeModal}>
+                        <lightning-icon icon-name="utility:close"
+                            alternative-text="close"
+                            size="small" ></lightning-icon>
+                        <span class="slds-assistive-text">Close</span>
+                    </button>
+                    <h2 id="modal-heading-02" class="slds-text-heading_medium slds-hyphenate">Add Certification Request</h2>
+                </header>
+                <div class="slds-modal__content slds-p-around_medium" id="modal-content-id-1">
+    
+                <lightning-record-form
+                    object-api-name="Certification_Request__c"
+                    fields={Fields}
+                    mode="edit"
+                    onsuccess={handleSuccess}  oncancel={closeModal}>
+                </lightning-record-form>
+            </div>
+            
+        </div>
+    </section>
+    </div>
+</div>
+
+<div class="slds-box slds-theme_default slds-theme_shade">
+    <lightning-card
+    variant="Narrow"
+    title="Certification Request Records"
+    icon-name="standard:contact">
+
+ <!-- show data    -->
+<lightning-datatable 
+key-field="Id" 
+data={result1} 
+columns={columns} 
+hide-checkbox-column="true"  
+onrowaction={handleActions}>
+</lightning-datatable>
+</lightning-card>
+
+ <!-- modal for view,update -->
+<div if:true={bShowModal} class="slds-m-around_large slds-align_absolute-center slds-scrollable">
+    <section role="dialog" tabindex="-1" aria-labelledby="modal-heading-01" aria-modal="true" aria-describedby="modal-content-id-2" class="slds-modal slds-fade-in-open">
+        <div class="slds-modal__container">
+            <!-- Modal/Popup Box LWC header here -->
+            <header class="slds-modal__header">
+                <button class="slds-button slds-button_icon slds-modal__close slds-button_icon-inverse" title="Close" onclick={closeModal}>
+                    <lightning-icon icon-name="utility:close"
+                        alternative-text="close"
+                        size="small" ></lightning-icon>
+                    <span class="slds-assistive-text">Close</span>
+                </button>
+                <h2 id="modal-heading-04" class="slds-text-heading_medium slds-hyphenate"
+                                    if:false={isEditForm}>Certification Request Details</h2>
+                <h2 id="modal-heading-03" class="slds-text-heading_medium slds-hyphenate" if:true={isEditForm}>update Certification Request</h2>
+            </header>
+            <div class="slds-modal__content slds-p-around_medium" id="modal-content-id-3"
+                                if:false={isEditForm}>
+                                <lightning-record-form  record-id={currentRecordId}  object-api-name="Certification_Request__c" layout-type="Full"
+                                mode="readonly">
+
+                                </lightning-record-form>
+                                  
+                            </div>
+            <div if:true={isEditForm} class="slds-modal__content  slds-p-around_small" id="modal-content-id-2">       
+<!-- put data in relative fields for updation -->
+<lightning-record-edit-form layout-type="Full" record-id={currentRecordId} object-api-name="Certification_Request__c" onsubmit={handleSubmit} >   
+        <lightning-input-field field-name="Name"></lightning-input-field>
+        <lightning-input-field field-name="Certification__c"></lightning-input-field>
+        <lightning-input-field field-name="Employee__c"></lightning-input-field>
+        <lightning-input-field field-name="Voucher__c"></lightning-input-field>
+        <lightning-input-field field-name="Status__c"></lightning-input-field>
+        <lightning-input-field field-name="Email_of_Emp__c"></lightning-input-field>
+        <lightning-input-field field-name="Due_Date__c"></lightning-input-field>
+        <lightning-input-field field-name="Comments__c"></lightning-input-field>
+        <div>
+        
+                            <footer class="slds-modal__footer">
+                                <lightning-button class="slds-m-top_small" variant="destructive-text"
+                                   label="cancel" onclick={closeModal}></lightning-button>
+                                <lightning-button class="slds-m-top_small" variant="destructive-text"
+                                  type="submit" label="Update Record"></lightning-button>
+                            </footer>
+                            </div>
+            </lightning-record-edit-form>
+        </div>
+                    </div>
+                </section>
+                </div>
+            
+        </div>
+
+</template>
